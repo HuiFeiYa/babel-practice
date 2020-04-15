@@ -5,6 +5,7 @@
     ]
   ],
   "plugins": [
-    "./plugin/a2b.js"
+    "./plugin/a2b.js",
+    "@babel/plugin-transform-arrow-functions"
   ]
 }

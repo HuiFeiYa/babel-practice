@@ -4,7 +4,7 @@ module.exports =  function(babel) {
   return {
     visitor: {
       VariableDeclarator(path, state) {
-        console.log('path', path.node.id)
+        // console.log('path', path.node.id)
         if(path.node.id.name == 'a') {
           path.node.id = t.identifier('b')
         }
