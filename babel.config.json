@@ -1,0 +1,10 @@
+{
+  "presets": [
+    [
+      "@babel/env"
+    ]
+  ],
+  "plugins": [
+    "./plugin/a2b.js"
+  ]
+}
