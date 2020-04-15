@@ -20,7 +20,10 @@
 #### .browserslistrc
 官方推荐使用 .browserslistrc 文件来指定目标环境。默认情况下，如果你没有在 Babel 配置文件中(如 .babelrc)设置 targets 或 ignoreBrowserslistConfig
 如果你不是要兼容所有的浏览器和环境，推荐你指定目标环境，这样你的编译代码能够保持最小。
+#### @babel/plugin-transform-runtime
+@babel/plugin-transform-runtime 是一个可以重复使用 Babel 注入的帮助程序，以节省代码大小的插件。
 
+首先安装依赖，@babel/plugin-transform-runtime 通常仅在开发时使用，但是运行时最终代码需要依赖 @babel/runtime，所以 @babel/runtime 必须要作为生产依赖被安装
 ### plugin
 定义使用哪些插件
 ```
@@ -38,7 +41,7 @@
 因为语法转换只是将高版本的语法转换成低版本的，但是**新的内置函数、实例方法无法转换**。这时，就需要使用 polyfill 上场了
 
 包括以下： Promise 和 WeakMap 之类的新的内置组件、 Array.from 或 Object.assign 之类的静态方法、Array.prototype.includes 之类的实例方法
-> V7.4.0 版本开始，@babel/polyfill 已经被废弃(前端发展日新月异)，需单独安装 core-js 和 regenerator-runtime 模块。
+> V7.4.0 版本开始，@babel/polyfill 已经被废弃(前端发展日新月异)，需单独安装 core-js 和 regenerator-runtime 模块。 regenerator-runtime是 @bebel/polyfill 的依赖不需要单独安装
 
 *使用@babel/polyfill*  
 需要将完整的 polyfill 在代码之前加载，所以需要安装在 dependencies 中
@@ -111,3 +114,25 @@ var p = new Promise(function (resolve, reject) {
 ```
 
 能看到最终的代码大小仅为: 20KB。而如果我们引入整个 @babel/polyfill 的话，构建出的包大小为：89KB
+
+### @babel/plugin-transform-runtime
+替代 "@babel/preset-env" 中的 useBuiltIns 配置
+移除了 @babel/preset-env 的 useBuiltIns 的配置，不然就重复了
+```
+{
+  "presets": [
+    [
+      "@babel/env"
+    ]
+  ],
+  "plugins": [
+    "./plugin/a2b.js",
+    "@babel/plugin-transform-arrow-functions",
+    [
+      "@babel/plugin-transform-runtime",{
+        "corejs": 3
+      }
+    ]
+  ]
+}
+```
